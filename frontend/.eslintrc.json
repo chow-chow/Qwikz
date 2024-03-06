@@ -1,0 +1,6 @@
+{
+	"extends": ["next/core-web-vitals", "prettier", "next/babel"],
+	"rules": {
+		"no-unused-vars": "warn"
+	}
+}
