@@ -19,8 +19,8 @@
 
 ## TO-DO
 
+- [x] Crear las relaciones entre las tablas
 - [ ] Crear un ID o autoincrementarlo en la base
-- [ ] Crear las relaciones entre las tablas
 - [ ] Implementar autenticación con `Firebase` o con `pyJWT`
 - [ ] Validar el esquema de la respuesta
 - [ ] Proteger las rutas
