@@ -20,6 +20,7 @@
 ## TO-DO
 
 - [x] Crear las relaciones entre las tablas
+- [ ] Crear las tablas faltantes para los Quizzes y Materiales
 - [ ] Crear un ID o autoincrementarlo en la base
 - [ ] Implementar autenticación con `Firebase` o con `pyJWT`
 - [ ] Validar el esquema de la respuesta
