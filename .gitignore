@@ -46,3 +46,8 @@ oracle_sid.txt
 
 # docker
 compose.yml
+
+# npm, yarn
+package-lock.json
+package.json
+frontend/yarn.lock
