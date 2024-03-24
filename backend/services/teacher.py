@@ -8,8 +8,8 @@ class TeacherService:
   def insert(data):
 
     teacher = Teacher(
-      firebase_uid=data['firebase_uid'],
-      institution_id=data.get('institution_id')  # Usamos .get para que sea opcional
+      FIREBASE_UID=data['FIREBASE_UID'],
+      INSTITUTION_ID= None # Usamos .get para que sea opcional
     )
     
     db.session.add(teacher)

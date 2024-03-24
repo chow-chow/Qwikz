@@ -6,7 +6,8 @@ class StudentService:
   @staticmethod
   def insert(data):
     student = Student(
-      FIREBASE_UID=data['FIREBASE_UID']
+      FIREBASE_UID=data['FIREBASE_UID'],
+      INSTITUTION_ID= None # Usamos .get para que sea opcional
     )
     db.session.add(student)
     db.session.commit()

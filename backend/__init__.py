@@ -15,7 +15,7 @@ def create_app(config_name):
     db.init_app(app)
     flask_bcrypt.init_app(app)
 
-    """     with app.app_context():
+    """with app.app_context():
         db.create_all() """
 
     @app.route('/list-tables')

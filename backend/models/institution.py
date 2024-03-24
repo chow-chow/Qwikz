@@ -1,20 +1,24 @@
-from ..extensions import db
+from sqlalchemy import Sequence
+from .. import db
 
 class INSTITUTION(db.Model):
-    """ Institution Model for storing institution related details """
-    __tablename__ = 'INSTITUTION'
+    """ Institution Model for storing institution related details"""
 
-    INSTITUTION_ID = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'INSTITUTION'
+    INSTITUTION_SEQ = Sequence('INSTITUTION_SEQ', metadata=db.metadata)
+
+    # Columns
+    INSTITUTION_ID = db.Column(db.Integer, INSTITUTION_SEQ, primary_key=True, server_default=INSTITUTION_SEQ.next_value())
     NAME = db.Column(db.String(20))
     CODE = db.Column(db.String(20))
-    ADDRESS = db.Column(db.String(20))
 
-    TEACHERS = db.relationship('TEACHER', backref='INSTITUTION', lazy=True)
+    # Parent-Child relationships
+    TEACHERS = db.relationship('TEACHER', backref='INSTITUTION', lazy='select')
+    STUDENTS = db.relationship('STUDENT', backref='INSTITUTION', lazy='select')
 
     def to_JSON(self):
         return {
-            'institution_id': self.INSTITUTION_ID,
-            'name': self.NAME,
-            'code': self.CODE,
-            'address': self.ADDRESS
+            'INSTITUTION_ID': self.INSTITUTION_ID,
+            'NAME': self.NAME,
+            'CODE': self.CODE,
         }
