@@ -5,6 +5,7 @@
 *.pnp
 *.pnp.js
 *.yarn/install-state.gz
+.venv
 
 # testing
 *coverage
@@ -40,9 +41,15 @@
 oracle_password.txt
 db_url.txt
 oracle_sid.txt
+credentials.json
 
 # python
 */__pycache__/
 
 # docker
 compose.yml
+
+# npm, yarn
+package-lock.json
+package.json
+yarn.lock

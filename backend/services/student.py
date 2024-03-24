@@ -1,4 +1,4 @@
-from ..models.student import Student
+from ..models.student import STUDENT as Student
 from ..services.group import GroupService
 from .. import db
 
@@ -6,12 +6,8 @@ class StudentService:
   @staticmethod
   def insert(data):
     student = Student(
-      student_id=data['student_id'],
-      first_name=data['first_name'],
-      last_name=data['last_name'],
-      email=data['email'],
+      FIREBASE_UID=data['FIREBASE_UID']
     )
-    student.password = data['password']
     db.session.add(student)
     db.session.commit()
     return student

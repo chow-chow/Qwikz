@@ -1,16 +1,17 @@
-from ..models.teacher import Teacher
+from ..models.teacher import TEACHER as Teacher
 from .. import db
 
 class TeacherService:
   @staticmethod
+
+  # Should work now
   def insert(data):
+
     teacher = Teacher(
-      teacher_id=data['teacher_id'],
-      first_name=data['first_name'],
-      last_name=data['last_name'],
-      email=data['email'],
+      firebase_uid=data['firebase_uid'],
+      institution_id=data.get('institution_id')  # Usamos .get para que sea opcional
     )
-    teacher.password = data['password']
+    
     db.session.add(teacher)
     db.session.commit()
     return teacher
