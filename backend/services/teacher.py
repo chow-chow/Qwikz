@@ -1,4 +1,5 @@
 from ..models.teacher import TEACHER as Teacher
+from ..models.qwikzgroup import QWIKZGROUP as QwikzGroup 
 from .. import db
 
 class TeacherService:
@@ -41,6 +42,10 @@ class TeacherService:
     return teacher
   
   @staticmethod
-  def get_groups(teacher_id):
-    teacher = Teacher.query.filter_by(teacher_id=teacher_id).first()
-    return teacher.groups
+  def get_groups(teacher_uid):
+    # Query the teacher by the teacher_uid
+    teacher = Teacher.query.filter_by(FIREBASE_UID=teacher_uid).first()
+    print(teacher)
+
+    # Use the relationship to get the groups
+    return teacher.QWIKZGROUPS
