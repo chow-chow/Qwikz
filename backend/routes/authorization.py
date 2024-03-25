@@ -1,9 +1,10 @@
 from flask import (Blueprint, request, jsonify, g)
+from firebase_admin import auth
 
 from backend.controllers.student import StudentController
 from backend.controllers.teacher import TeacherController
 from ..decorators.decorators import verify_token
-from firebase_admin import auth
+from ..helpers.firebase_auth import authenticate_user_with_firebase
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -60,28 +61,34 @@ def register():
 
     return jsonify(response_body)
 
-@auth_bp.route('/verify', methods=['POST'])
-@verify_token
-def verify():
+@auth_bp.route('/login', methods=['POST'])
+def login():
     """
-    Using Firebase SDK verifies the custom claims of the user declared in the token.
+    Authenticate the user using email and password, then send a custom token to the client.
 
-    return: A boolean value indicating if the user has the custom claim or not.
+    return: The custom token with the custom claims attached to login in the client.
     """
 
-    # Get the user's information from the request context stored by the verify_token decorator
-    token = g.token
-    accountType = request.json.get('accountType')
+    email = request.json.get('email')
+    password = request.json.get('password')
 
-    # Get the user's custom claims
-    custom_claims = auth.verify_id_token(token)
+    try:
+        user_credentials = authenticate_user_with_firebase(email, password)
+        id_token = user_credentials.get('idToken')
 
-    print("This user has the following custom claims: ", custom_claims.get('accountType'))
+        if id_token is None:
+            return jsonify({"error": "Invalid credentials"}), 400
 
-    # Check if the server and client custom claims match
-    claims_match = custom_claims.get('accountType') == accountType
+        decoded_token = auth.verify_id_token(id_token)
+        uid = decoded_token.get('uid')
 
-    if claims_match is False:
-        return jsonify({"error": "The custom claims declared in the client do not match"}), 400
-    else:
-        return jsonify({"ok": claims_match})
+        # Generate a new access token with the custom claim attached
+        custom_token = auth.create_custom_token(uid)
+
+        # Decode the custom token to a string
+        custom_token_str = custom_token.decode('utf-8')
+
+        return jsonify({"ok": True, "customToken": custom_token_str}), 200
+    
+    except Exception as e:
+        return jsonify({"ok": False, "errorMessage": "Authentication failed"}), 500
