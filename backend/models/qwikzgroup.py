@@ -10,15 +10,16 @@ class QWIKZGROUP(db.Model):
     # Columns
     QWIKZGROUP_ID = db.Column(db.Integer, QWIKZGROUP_SEQ, primary_key=True, server_default=QWIKZGROUP_SEQ.next_value())
     GROUP_NAME = db.Column(db.String(50))
-    GROUP_CODE = db.Column(db.String(7))
-    ACCESS_TOKEN = db.Column(db.String(14))
+    GROUP_CODE = db.Column(db.String(7), unique=True)
+    ACCESS_TOKEN = db.Column(db.String(14), unique=True)
     TEACHER_ID = db.Column(db.Integer, db.ForeignKey('TEACHER.TEACHER_ID'), nullable=False)
     
+    # Parent-Child relationships
+    GROUP_STUDENTS = db.relationship('GROUP_STUDENT', backref='QWIKZGROUP', lazy='select')
+
     def to_JSON(self):
         return {
-            'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
             'GROUP_NAME': self.GROUP_NAME,
             'GROUP_CODE': self.GROUP_CODE,
             'ACCESS_TOKEN': self.ACCESS_TOKEN,
-            'TEACHER_ID': self.TEACHER_ID
         }

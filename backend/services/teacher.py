@@ -29,8 +29,11 @@ class TeacherService:
     return Teacher.query.all()
   
   @staticmethod
-  def get(teacher_id):
-    return Teacher.query.filter_by(teacher_id=teacher_id).first()
+  def get(teacher_uid):
+    """Return the TEACHER_ID by the teacher_uid"""
+    teacher = Teacher.query.filter_by(FIREBASE_UID=teacher_uid).first()
+    if teacher:
+      return teacher.TEACHER_ID
   
   @staticmethod
   def update(teacher_id, data):
@@ -45,7 +48,4 @@ class TeacherService:
   def get_groups(teacher_uid):
     # Query the teacher by the teacher_uid
     teacher = Teacher.query.filter_by(FIREBASE_UID=teacher_uid).first()
-    print(teacher)
-
-    # Use the relationship to get the groups
     return teacher.QWIKZGROUPS

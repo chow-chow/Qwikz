@@ -31,6 +31,5 @@ class TeacherController:
   @staticmethod
   def get_teacher_groups(teacher_uid):
     groups = TeacherService().get_groups(teacher_uid)
-    print(groups)
     groups_json = [group.to_JSON() for group in groups]
     return jsonify(groups_json), 200
