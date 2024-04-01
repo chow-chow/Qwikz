@@ -7,6 +7,7 @@ from .routes.teacher import teacher_bp
 from .routes.student import student_bp
 from .routes.group import group_bp
 from .routes.authorization import auth_bp
+from .routes.quizz import quizz_bp
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -39,5 +40,6 @@ def create_app(config_name):
     app.register_blueprint(student_bp, url_prefix='/student')
     app.register_blueprint(group_bp, url_prefix='/group')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(quizz_bp, url_prefix='/quizz')
 
     return app

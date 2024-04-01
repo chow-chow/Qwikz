@@ -22,4 +22,6 @@ class QWIKZGROUP(db.Model):
             'GROUP_NAME': self.GROUP_NAME,
             'GROUP_CODE': self.GROUP_CODE,
             'ACCESS_TOKEN': self.ACCESS_TOKEN,
+            'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
+            'TEACHER_ID': self.TEACHER_ID
         }
