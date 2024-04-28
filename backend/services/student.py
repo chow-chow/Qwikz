@@ -10,7 +10,9 @@ class StudentService:
   def insert(data):
     student = Student(
       FIREBASE_UID=data['FIREBASE_UID'],
-      INSTITUTION_ID= None # Usamos .get para que sea opcional
+      INSTITUTION_ID= None,
+      DISPLAY_NAME=data['DISPLAY_NAME'],
+      EMAIL=data['EMAIL']
     )
     db.session.add(student)
     db.session.commit()

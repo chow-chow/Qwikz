@@ -20,7 +20,11 @@ def register():
     # Get the user's information from the request context stored by the verify_token decorator
     uid = g.uid
     accountType = request.json.get('accountType')
+    displayName = request.json.get('displayName')
+    email = request.json.get('email')
     institution_id = request.json.get('institution_id', None)
+
+    print(displayName, email, accountType)
 
     # Set the user with the custom claims
     auth.set_custom_user_claims(uid, {'accountType': accountType})
@@ -30,6 +34,8 @@ def register():
 
         teacher_data = {
             'FIREBASE_UID': uid,
+            'DISPLAY_NAME': displayName,
+            'EMAIL': email,
         }
         if institution_id is not None:
             teacher_data['INSTITUTION_ID'] = institution_id
@@ -41,6 +47,8 @@ def register():
 
         student_data = {
             'FIREBASE_UID': uid,
+            'DISPLAY_NAME': displayName,
+            'EMAIL': email,
         }
         if institution_id is not None:
             teacher_data['INSTITUTION_ID'] = institution_id

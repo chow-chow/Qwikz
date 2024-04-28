@@ -18,10 +18,13 @@ class QWIKZGROUP(db.Model):
     GROUP_STUDENTS = db.relationship('GROUP_STUDENT', backref='QWIKZGROUP', lazy='select')
 
     def to_JSON(self):
+
+        students = [student.to_JSON() for student in self.GROUP_STUDENTS]
         return {
             'GROUP_NAME': self.GROUP_NAME,
             'GROUP_CODE': self.GROUP_CODE,
             'ACCESS_TOKEN': self.ACCESS_TOKEN,
             'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
-            'TEACHER_ID': self.TEACHER_ID
+            'TEACHER_ID': self.TEACHER_ID,
+            'STUDENTS': students
         }

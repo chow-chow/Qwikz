@@ -1,5 +1,6 @@
 from sqlalchemy import Sequence
 from datetime import datetime
+from ..models.student import STUDENT
 from .. import db
 
 class GROUP_STUDENT(db.Model):
@@ -18,9 +19,13 @@ class GROUP_STUDENT(db.Model):
     QUIZZ_APPLICATION = db.relationship('QUIZZ_APPLICATION', backref='GROUP_STUDENT', lazy='select')
     
     def to_JSON(self):
+
+        student = STUDENT.query.filter_by(STUDENT_ID=self.STUDENT_ID).first()
+
         return {
             'GROUP_STUDENT_ID': self.GROUP_STUDENT_ID,
             'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
             'STUDENT_ID': self.STUDENT_ID,
-            'ENROLLMENT_DATE': self.ENROLLMENT_DATE.isoformat()
+            'ENROLLMENT_DATE': self.ENROLLMENT_DATE.isoformat(),
+            'STUDENT_DETAILS': student.to_JSON()
         }
