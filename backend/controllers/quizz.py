@@ -6,7 +6,8 @@ class QuizzController:
     @staticmethod
     def create_quizz(data):
         quizz = QuizzService().insert(data)
-        return jsonify(quizz), 201
+        quizz_dict = quizz.to_JSON()  # Convertir a diccionario
+        return jsonify(quizz_dict), 201
     
     @staticmethod
     def query_quizz(data):

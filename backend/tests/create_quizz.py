@@ -9,17 +9,11 @@ url = "http://localhost:5000/quizz/create"
 data = {
     "QUIZZ_CODE": "A31-0X1",
     "QUIZZ_NAME": "QUIZZ_NAME",
-    "LIMIT_TIME": 1,
+    "LIMIT_TIME": 60,
     "MAX_RETRY": 1,
-    "QUESTIONS": {
-        "QUESTION": "QUESTION",
-        "ANSWERS": [
-            {
-                "ANSWER": "ANSWER",
-                "CORRECT": True
-            }
-        ]
-    },
+    "QUESTIONS": [
+       ""
+    ],
     "QWIKZGROUP_ID": 1
 }
 
