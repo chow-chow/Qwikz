@@ -1,6 +1,9 @@
 FROM python:3.9.5-slim-buster
 
 ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_4
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
+ENV FLASK_APP=wsgi.py
 
 RUN apt-get update && \
     apt-get install -y libpq-dev zlib1g-dev build-essential shared-mime-info libaio1 libaio-dev unzip wget --no-install-recommends && \

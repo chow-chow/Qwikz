@@ -1,12 +1,19 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from ..controllers.group import GroupController
+from ..decorators.decorators import verify_teacher_claim
 
 group_bp = Blueprint('group', __name__)
 
 # TODO: Protect this route, only teachers should be able to create groups
-@group_bp.route('/', methods=['POST'])
+@group_bp.route('/create', methods=['POST'])
+@verify_teacher_claim
 def create_group():
-  return GroupController.create_group(request.get_json())
+  """
+  Creates a group in request from a teacher.
+
+  :return: A JSON response with a confirmation, and the group details (unique key and access token).
+  """
+  return GroupController.create_group(request.get_json(), g.uid)
 
 @group_bp.route('/', methods=['GET'])
 def get_groups():

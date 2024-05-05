@@ -1,5 +1,6 @@
 from flask import jsonify
 from ..services.student import StudentService
+from ..services.group import GroupService
 
 class StudentController:
   @staticmethod
@@ -14,8 +15,10 @@ class StudentController:
     return jsonify(students_json), 200
   
   @staticmethod
-  def join_group(student_id, group_code):
-    return jsonify(StudentService().join_group(student_id,group_code)), 204
+  def join_group(student_uid, access_token):
+    group = StudentService().join_group(student_uid, access_token)
+    group_data = GroupService().get_byID(group.QWIKZGROUP_ID)
+    return jsonify(group_data.to_JSON()), 201
   
   @staticmethod
   def get_student(student_id):
@@ -32,7 +35,7 @@ class StudentController:
     return jsonify(student.to_JSON()), 200
   
   @staticmethod
-  def get_student_groups(student_id):
-    groups = StudentService().get_groups(student_id)
+  def get_student_groups(student_uid):
+    groups = StudentService().get_groups(student_uid)
     groups_json = [group.to_JSON() for group in groups]
     return jsonify(groups_json), 200

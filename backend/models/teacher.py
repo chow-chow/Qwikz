@@ -1,32 +1,27 @@
-from ..extensions import db, flask_bcrypt
+from sqlalchemy import Sequence
+from .. import db
 
-class Teacher(db.Model):
+class TEACHER(db.Model):
     """ Teacher Model for storing teacher related details """
-    __tablename__ = "teacher"
 
-    teacher_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    password_hash = db.Column(db.String(100), nullable=False)
-    profile_picture = db.Column(db.LargeBinary, nullable=True)
-    groups = db.relationship('Group', backref='teacher')
+    __tablename__ = 'TEACHER'
+    TEACHER_SEQ = Sequence('TEACHER_SEQ', metadata=db.metadata)
 
-    @property
-    def password(self):
-        raise AttributeError("password: write-only field")
+    # Columns
+    TEACHER_ID = db.Column(db.Integer, TEACHER_SEQ, primary_key=True, server_default=TEACHER_SEQ.next_value())
+    FIREBASE_UID = db.Column(db.String(50), unique=True, nullable=False)
+    DISPLAY_NAME = db.Column(db.String(75), nullable=False)
+    EMAIL = db.Column(db.String(50), nullable=False)
+    INSTITUTION_ID = db.Column(db.Integer, db.ForeignKey('INSTITUTION.INSTITUTION_ID'), nullable=True)
 
-    @password.setter
-    def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def check_password(self, password):
-        return flask_bcrypt.check_password_hash(self.password_hash, password)
-
+    # Parent-Child relationships
+    QWIKZGROUPS = db.relationship('QWIKZGROUP', backref='TEACHER', lazy='select')
+    
     def to_JSON(self):
         return {
-            'teacher_id': self.teacher_id,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email
+            'TEACHER_ID': self.TEACHER_ID,
+            'FIREBASE_UID': self.FIREBASE_UID,
+            'DISPLAY_NAME': self.DISPLAY_NAME,
+            'EMAIL': self.EMAIL,
+            'INSTITUTION_ID': self.INSTITUTION_ID
         }

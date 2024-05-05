@@ -1,11 +1,16 @@
 from flask import jsonify
 from ..services.group import GroupService
+from ..services.teacher import TeacherService
+from ..helpers.group_helpers import prepare_group_object
 
 class GroupController:
   @staticmethod
-  def create_group(data):
-    group = GroupService().insert(data)
-    return jsonify(group.to_JSON()), 201
+  def create_group(data, teacher_uid):
+    group_name = data.get('groupName')
+    teacher_id = TeacherService.get(teacher_uid)
+    group_data = prepare_group_object(group_name, teacher_id)
+    group = GroupService().insert(group_data)
+    return jsonify(group), 201
   
   @staticmethod
   def get_groups():

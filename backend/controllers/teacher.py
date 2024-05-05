@@ -27,8 +27,9 @@ class TeacherController:
     teacher = TeacherService().update(teacher_id, data)
     return jsonify(teacher.to_JSON()), 200
 
+  # Updated the method signature to receive the teacher_uid
   @staticmethod
-  def get_teacher_groups(teacher_id):
-    groups = TeacherService().get_groups(teacher_id)
+  def get_teacher_groups(teacher_uid):
+    groups = TeacherService().get_groups(teacher_uid)
     groups_json = [group.to_JSON() for group in groups]
     return jsonify(groups_json), 200
