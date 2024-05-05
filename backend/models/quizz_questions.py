@@ -1,4 +1,4 @@
-""" from sqlalchemy import ForeignKey, Integer, CLOB
+from sqlalchemy import CLOB
 from .. import db
 
 class QUIZZ_QUESTIONS(db.Model):
@@ -10,7 +10,3 @@ class QUIZZ_QUESTIONS(db.Model):
     
     # Columna para almacenar las preguntas como CLOB
     QUESTIONS = db.Column(CLOB)
-
-    # Estableciendo la relación con QUIZZ
-    # QUIZZ = db.relationship('QUIZZ', back_populates='QUIZZ_QUESTIONS', uselist=False)
-"""
