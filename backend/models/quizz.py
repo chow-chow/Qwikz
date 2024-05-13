@@ -31,7 +31,7 @@ class QUIZZ(db.Model):
             'LIMIT_TIME': self.LIMIT_TIME,
             'MAX_RETRY': self.MAX_RETRY,
             'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
-            'QUESTIONS': self.QUIZZ_QUESTIONS.questions
+            'QUESTIONS': self.QUIZZ_QUESTIONS.QUESTIONS
         }
 
 """     @property

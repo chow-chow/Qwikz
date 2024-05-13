@@ -78,7 +78,7 @@ AND
     s.student_id = 1;
     
 SELECT 
-    s.display_name, s.email, qa.quizz_application_id, q.quizz_id, q.quizz_name, qq.questions, qg.qwikzgroup_id, qg.group_name, q.limit_time, q.max_retry, qa.is_completed
+    s.display_name, s.email, qa.quizz_application_id, q.quizz_id, q.quizz_name, qq.questions, qg.qwikzgroup_id, qg.group_name, q.limit_time, q.max_retry, qa.retry_number, qa.is_completed, qa.results
 FROM 
     quizz_application qa 
 JOIN 
@@ -102,7 +102,7 @@ JOIN
 ON
     gs.student_id = s.student_id
 WHERE
-    q.quizz_id = 46
+    q.quizz_id = 47
 AND
     qg.qwikzgroup_id = 21
 AND

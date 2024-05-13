@@ -12,7 +12,7 @@ class QUIZZ_APPLICATION(db.Model):
     QUIZZ_ID = db.Column(db.Integer, db.ForeignKey('QUIZZ.QUIZZ_ID'))
     GROUP_STUDENT_ID = db.Column(db.Integer, db.ForeignKey('GROUP_STUDENT.GROUP_STUDENT_ID'))
     RESULTS = db.Column(db.Integer)
-    ANSWERS = db.Column(db.JSON)
+    # ANSWERS = db.Column(db.JSON) Probably will be converted to a CLOB column
     IS_COMPLETED = db.Column(db.Integer)
     RETRY_NUMBER = db.Column(db.Integer)
 
