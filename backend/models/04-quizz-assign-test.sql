@@ -12,6 +12,21 @@ END;
 /
 
 SELECT 
+    Q.QUIZZ_ID, Q.QUIZZ_CODE, QUIZZ_NAME, QG.GROUP_NAME, QG.QWIKZGROUP_ID
+FROM
+    QUIZZ Q
+JOIN
+    QWIKZGROUP QG
+ON
+    QG.QWIKZGROUP_ID = Q.QWIKZGROUP_ID
+WHERE
+    QG.QWIKZGROUP_ID = 21;
+
+select * from quizz;
+
+select * from student;
+
+SELECT 
     s.DISPLAY_NAME AS student_name,
     s.EMAIL AS student_email,
     q.QUIZZ_CODE,
@@ -28,6 +43,73 @@ JOIN
 JOIN 
     QUIZZ q ON qa.QUIZZ_ID = q.QUIZZ_ID
 WHERE 
-    q.QUIZZ_ID = 3;
+    q.QUIZZ_ID = 41;
+    
+    
+SELECT
+    s.display_name, s.email, s.student_id, q.quizz_id, q.quizz_name, q.quizz_code, q.limit_time, q.max_retry
+FROM
+    STUDENT S
+JOIN
+    GROUP_STUDENT gs
+ON 
+    gs.student_id = s.student_id
+JOIN
+    QWIKZGROUP qg
+ON
+    qg.qwikzgroup_id = gs.qwikzgroup_id
+JOIN
+    quizz_application qa
+ON 
+    qa.group_student_id = gs.group_student_id
+JOIN
+    quizz q
+ON
+    q.quizz_id = qa.quizz_id
+JOIN
+    quizz_questions qq
+ON 
+    qq.quizz_id = q.quizz_id
+WHERE
+    q.quizz_id = 45
+AND
+    qg.qwikzgroup_id = 21
+AND
+    s.student_id = 1;
+    
+SELECT 
+    s.display_name, s.email, qa.quizz_application_id, q.quizz_id, q.quizz_name, qq.questions, qg.qwikzgroup_id, qg.group_name, q.limit_time, q.max_retry, qa.is_completed
+FROM 
+    quizz_application qa 
+JOIN 
+    quizz q 
+ON 
+    qa.quizz_id = q.quizz_id
+JOIN
+    quizz_questions qq
+ON
+    q.quizz_id = qq.quizz_id
+JOIN
+    group_student gs
+ON 
+    qa.group_student_id = gs.group_student_id
+JOIN
+    qwikzgroup qg
+ON
+    gs.qwikzgroup_id = q.qwikzgroup_id
+JOIN
+    student s
+ON
+    gs.student_id = s.student_id
+WHERE
+    q.quizz_id = 46
+AND
+    qg.qwikzgroup_id = 21
+AND
+    s.student_id = 1;
 
 SELECT * FROM QUIZZ;
+
+SELECT * FROM QUIZZ_APPLICATION;
+
+

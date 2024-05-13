@@ -1,3 +1,4 @@
+from sqlalchemy import text
 from ..models.quizz import QUIZZ as Quizz
 from ..models.quizz_questions import QUIZZ_QUESTIONS as QuizzQuestions
 from .. import db
@@ -29,6 +30,14 @@ class QuizzService:
         # Añadir y guardar QUIZZ_QUESTIONS en la base de datos
         db.session.add(quizz_questions)
         db.session.commit()
+
+        # Llamar al procedimiento almacenado CREATE_QUIZZ_APPLICATION
+        try:
+            db.session.execute(text("CALL CREATE_QUIZZ_APPLICATION(:quizz_id)"), {'quizz_id': quizz.QUIZZ_ID})
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error al llamar al procedimiento almacenado: {e}")
         
         return quizz
     

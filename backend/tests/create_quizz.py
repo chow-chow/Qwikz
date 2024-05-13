@@ -7,42 +7,34 @@ import requests
 url = "http://localhost:5000/quizz/create"
 
 data = {
-    "QUIZZ_CODE": "A31-0X1",
-    "QUIZZ_NAME": "QUIZZ_NAME_2_Test",
+    "QUIZZ_CODE": "SND-IEP",
+    "QUIZZ_NAME": "Examen Bebidos",
     "LIMIT_TIME": 60,
     "MAX_RETRY": 1,
     "QUESTIONS": [
         {
-            "id": 1,
-            "question": "¿Qué coño inició la Primera Guerra Mundial?",
-            "correct_answer": "El asesinato del Archiduque Franz Ferdinand de Austria",
-            "incorrect_answers": [
-                "El hundimiento del Titanic",
-                "La invasión de Polonia por Alemania",
-                "La Revolución Francesa"
-            ]
+            "question": "¿Quién se robó mi queso?",
+            "answers": [
+                "El ratón",
+                "Mis miedos",
+                "Hola",
+                "Adiós"
+            ],
+            "correctAnswer": 1,
+            "file": {},
+            "imageURL": "https://res.cloudinary.com/dsd9qmdge/image/upload/v1715471894/qwikz/owwcfhrkn1imtrnkwgzx.jpg"
         },
         {
-            "id": 2,
-            "question": '¿Quién es el autor de "Cien años de soledad"?',
-            "correct_answer": "Gabriel García Márquez",
-            "incorrect_answers": [
-                "Julio Cortázar",
-                "Mario Vargas Llosa",
-                "Pablo Neruda"
-            ]
-        },
-        {
-            "id": 3,
-            "question": "¿En qué deporte se utiliza un disco?",
-            "correct_answer": "Hockey sobre hielo",
-            "incorrect_answers": ["Fútbol", "Baloncesto", "Béisbol"]
-        },
-        {
-            "id": 4,
-            "question": "¿Qué sustancia es conocida como la 'molécula de la vida'?",
-            "correct_answer": "El ADN",
-            "incorrect_answers": ["La glucosa", "La insulina", "La proteína"]
+            "question": "¿Qué es mejor?",
+            "answers": [
+                "AMD",
+                "Intel",
+                "NVIDIA",
+                "Ryzon"
+            ],
+            "correctAnswer": 3,
+            "file": {},
+            "imageURL": "https://res.cloudinary.com/dsd9qmdge/image/upload/v1715471894/qwikz/cqm1rv42zu5ueikkd4lz.jpg"
         }
     ],
     "QWIKZGROUP_ID": 1

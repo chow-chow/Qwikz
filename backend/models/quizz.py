@@ -20,15 +20,18 @@ class QUIZZ(db.Model):
     QUIZZ_MEDIA = db.relationship('QUIZZ_MEDIA', backref='QUIZZ', lazy='select')
     QUIZZ_APPLICATION = db.relationship('QUIZZ_APPLICATION', backref='QUIZZ', lazy='select')
 
-    def to_JSON(self):
 
+    QUIZZ_QUESTIONS = db.relationship('QUIZZ_QUESTIONS', uselist=False, lazy='select')
+
+    def to_JSON(self):
         return {
             'QUIZZ_ID': self.QUIZZ_ID,
             'QUIZZ_CODE': self.QUIZZ_CODE,
             'QUIZZ_NAME': self.QUIZZ_NAME,
             'LIMIT_TIME': self.LIMIT_TIME,
             'MAX_RETRY': self.MAX_RETRY,
-            'QWIKZGROUP_ID': self.QWIKZGROUP_ID
+            'QWIKZGROUP_ID': self.QWIKZGROUP_ID,
+            'QUESTIONS': self.QUIZZ_QUESTIONS.questions
         }
 
 """     @property
