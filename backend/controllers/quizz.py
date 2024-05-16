@@ -63,8 +63,15 @@ class QuizzController:
 
     @staticmethod
     def score_student_quizz(data):
+
+        print('Mi data', data)
+        # Desempaquetar el objeto data
+        data = data['quizz']
+
         quizz_application_id = data['QUIZZ_APPLICATION_ID']
-        results = data['RESULTS']
+        results = data['results']
+        answers = data['answers']
+        is_completed = data['isComplete']
 
         # Buscar el registro de QUIZZ_APPLICATION por ID
         quizz_application = QUIZZ_APPLICATION.query.filter_by(QUIZZ_APPLICATION_ID=quizz_application_id).first()
