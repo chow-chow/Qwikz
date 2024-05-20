@@ -28,6 +28,8 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
+COPY credentials.json .
+
 COPY . .
 
 EXPOSE 5000

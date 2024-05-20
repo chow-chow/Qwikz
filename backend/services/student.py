@@ -3,6 +3,8 @@ from ..models.student import STUDENT as Student
 from ..models.group_student import GROUP_STUDENT as GroupStudent
 from ..models.qwikzgroup import QWIKZGROUP as Group
 from ..services.group import GroupService
+from ..models.quizz import QUIZZ as Quizz
+from sqlalchemy import text
 from .. import db
 
 class StudentService:
@@ -58,6 +60,17 @@ class StudentService:
 
     db.session.add(new_group_student)
     db.session.commit()
+
+    existing_quizzes = Quizz.query.filter_by(QWIKZGROUP_ID=qwikzgroup_id).all()
+
+    for quizz in existing_quizzes:
+      try:
+          db.session.execute(text("CALL CREATE_QUIZZ_APPLICATION(:quizz_id)"), {'quizz_id': quizz.QUIZZ_ID})
+          db.session.commit()
+      except Exception as e:
+          db.session.rollback()
+          print(f"Error al llamar al procedimiento almacenado: {e}")
+
     return new_group_student
   
   @staticmethod
