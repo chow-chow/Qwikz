@@ -21,6 +21,17 @@ class StudentController:
     return jsonify(group_data.to_JSON()), 201
   
   @staticmethod
+  def leave_group(student_uid, qwikzgroup_id):
+      try:
+          confirm = StudentService.leave_group(student_uid, qwikzgroup_id)
+          if confirm:
+              return jsonify({"message": "Student successfully removed from group"}), 200
+          else:
+              return jsonify({"error": "Group student record not found"}), 404
+      except Exception as e:
+          return jsonify({"error": str(e)}), 500
+  
+  @staticmethod
   def get_student(student_id):
     student = StudentService().get(student_id)
     return jsonify(student.to_JSON()), 200

@@ -45,3 +45,15 @@ def join_group():
   access_token = request.json.get('accessToken')
   student_uid = g.uid
   return StudentController.join_group(student_uid, access_token)
+
+@student_bp.route('/leave_group', methods=['POST'])
+@verify_student_claim
+def leave_group():
+  """
+  Leave a group in request from a student.
+
+  :return: A JSON response with a confirmation of leaving the group.
+  """
+  qwikzgroup_id = request.json.get('QWIKZGROUP_ID')
+  student_uid = g.uid
+  return StudentController.leave_group(student_uid, qwikzgroup_id)

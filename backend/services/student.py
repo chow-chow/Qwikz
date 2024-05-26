@@ -2,6 +2,7 @@ from datetime import datetime
 from ..models.student import STUDENT as Student
 from ..models.group_student import GROUP_STUDENT as GroupStudent
 from ..models.qwikzgroup import QWIKZGROUP as Group
+from ..models.quizz_application import QUIZZ_APPLICATION as QuizzApplication
 from ..services.group import GroupService
 from ..models.quizz import QUIZZ as Quizz
 from sqlalchemy import text
@@ -73,6 +74,30 @@ class StudentService:
 
     return new_group_student
   
+  @staticmethod
+  def leave_group(student_uid, qwikzgroup_id):
+      student_id = StudentService().get(student_uid)
+      if not student_id:
+          return False
+
+      # Obtener el registro de inscripción del estudiante en el grupo
+      group_student = GroupStudent.query.filter_by(STUDENT_ID=student_id, QWIKZGROUP_ID=qwikzgroup_id).first()
+
+      if group_student:
+          try:
+              # Eliminar las asignaciones en QUIZZ_APPLICATION
+              QuizzApplication.query.filter_by(GROUP_STUDENT_ID=group_student.GROUP_STUDENT_ID).delete()
+
+              # Eliminar el registro en GROUP_STUDENT
+              db.session.delete(group_student)
+              db.session.commit()
+              return True
+          except Exception as e:
+              db.session.rollback()
+              print(f"Error al eliminar el estudiante del grupo: {e}")
+
+      return False
+
   @staticmethod
   def get_groups(student_uid):
     """Return the groups in which the student is enrolled querying by student_uid"""
