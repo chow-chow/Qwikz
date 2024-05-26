@@ -17,7 +17,7 @@ class QUIZZ(db.Model):
     QWIKZGROUP_ID = db.Column(db.Integer, db.ForeignKey('QWIKZGROUP.QWIKZGROUP_ID'), nullable=False)
 
     # Parent-Child relationships
-    QUIZZ_MEDIA = db.relationship('QUIZZ_MEDIA', backref='QUIZZ', lazy='select')
+    # QUIZZ_MEDIA = db.relationship('QUIZZ_MEDIA', backref='QUIZZ', lazy='select')
     QUIZZ_APPLICATION = db.relationship('QUIZZ_APPLICATION', backref='QUIZZ', lazy='select')
 
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, g
 from ..controllers.quizz import QuizzController
-from ..decorators.decorators import verify_token, verify_student_claim
+from ..decorators.decorators import verify_token, verify_student_claim, verify_teacher_claim
 
 quizz_bp = Blueprint('quizz', __name__)
 
@@ -60,3 +60,21 @@ def get_quizz_results():
         return jsonify({"error": "QUIZZ_ID is required"}), 400
 
     return QuizzController.query_quizz_results(quizz_id)
+
+@quizz_bp.route('/delete', methods=['POST'])
+@verify_teacher_claim
+def delete_quizz():
+    """
+    Delete a quizz by QUIZZ_ID.
+
+    :return: A JSON response with the confirmation of the deletion.
+    """
+    data = request.get_json()
+    quizz_id = data.get('quizzId')
+
+    if not quizz_id:
+        return jsonify({"error": "QUIZZ_ID is required"}), 400
+    
+    print("Mi quizz_id", quizz_id)
+
+    return QuizzController.delete_quizz(quizz_id)

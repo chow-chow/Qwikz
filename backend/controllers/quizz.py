@@ -108,3 +108,30 @@ class QuizzController:
         results_list = [row._asdict() for row in results]
 
         return jsonify(results_list), 200
+    
+    @staticmethod
+    def delete_quizz(quizz_id):
+        try:
+            # Obtener el quizz por ID
+            quizz = QUIZZ.query.get(quizz_id)
+            if not quizz:
+                return jsonify({"error": "Quizz not found"}), 404
+
+            # Eliminar las referencias en QUIZZ_APPLICATION
+            QUIZZ_APPLICATION.query.filter_by(QUIZZ_ID=quizz_id).delete()
+
+            # Eliminar las referencias en QUIZZ_QUESTIONS
+            QUIZZ_QUESTIONS.query.filter_by(QUIZZ_ID=quizz_id).delete()
+
+            # Opcional: Eliminar las referencias en QUIZZ_MEDIA
+            # QuizzMedia.query.filter_by(QUIZZ_ID=quizz_id).delete()
+
+            # Eliminar el quizz
+            db.session.delete(quizz)
+            db.session.commit()
+
+            return jsonify({"message": "Quizz successfully deleted"}), 200
+        except Exception as e:
+            db.session.rollback()
+            print("Error al eliminar el quizz: ", e)
+            return jsonify({"error": str(e)}), 500
