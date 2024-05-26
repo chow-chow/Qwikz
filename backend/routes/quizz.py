@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify, request, g
+from flask import Blueprint, jsonify, request, g, send_file
+from io import BytesIO
 from ..controllers.quizz import QuizzController
 from ..decorators.decorators import verify_token, verify_student_claim, verify_teacher_claim
+from ..models.quizz_gif import QUIZZ_GIF
 
 quizz_bp = Blueprint('quizz', __name__)
 
@@ -78,3 +80,34 @@ def delete_quizz():
     print("Mi quizz_id", quizz_id)
 
     return QuizzController.delete_quizz(quizz_id)
+
+@quizz_bp.route('/get_gif', methods=['POST'])
+def get_gif():
+    data = request.get_json()
+    score = data.get('score')
+    
+    if score is None:
+        return jsonify({"error": "Score is required"}), 400
+
+    try:
+        if 0 <= score <= 5:
+            gif = QUIZZ_GIF.query.filter(QUIZZ_GIF.MIN_SCORE <= 5, QUIZZ_GIF.MAX_SCORE >= 0).first()
+        elif 6 <= score <= 8:
+            gif = QUIZZ_GIF.query.filter(QUIZZ_GIF.MIN_SCORE <= 8, QUIZZ_GIF.MAX_SCORE >= 6).first()
+        elif 9 <= score <= 10:
+            gif = QUIZZ_GIF.query.filter(QUIZZ_GIF.MIN_SCORE <= 10, QUIZZ_GIF.MAX_SCORE >= 9).first()
+        else:
+            return jsonify({"error": "Invalid score range"}), 400
+
+        if gif is None:
+            return jsonify({"error": "No GIF found for the given score, im stupid"}), 404
+
+        return send_file(
+            BytesIO(gif.GIF_BLOB),
+            mimetype='image/gif',
+            as_attachment=True,
+            download_name='result.gif'
+        )
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

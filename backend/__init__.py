@@ -8,6 +8,49 @@ from .routes.student import student_bp
 from .routes.group import group_bp
 from .routes.authorization import auth_bp
 from .routes.quizz import quizz_bp
+from .models.quizz_gif import QUIZZ_GIF
+
+def insert_gifs():
+    existing_gifs = db.session.query(QUIZZ_GIF).count()
+    if existing_gifs == 0:
+        db.session.execute(text("""
+        DECLARE
+        l_blob1 BLOB;
+        l_blob2 BLOB;
+        l_blob3 BLOB;
+        l_bfile1 BFILE := BFILENAME('GIFS_DIR', 'mad.gif');
+        l_bfile2 BFILE := BFILENAME('GIFS_DIR', 'easy.gif');
+        l_bfile3 BFILE := BFILENAME('GIFS_DIR', 'pedro.gif');
+        BEGIN
+        -- Insertar el primer GIF
+        INSERT INTO QUIZZ_GIF (MIN_SCORE, MAX_SCORE, GIF_BLOB)
+        VALUES (0, 5, EMPTY_BLOB())
+        RETURNING GIF_BLOB INTO l_blob1;
+
+        DBMS_LOB.FILEOPEN(l_bfile1, DBMS_LOB.FILE_READONLY);
+        DBMS_LOB.LOADFROMFILE(l_blob1, l_bfile1, DBMS_LOB.GETLENGTH(l_bfile1));
+        DBMS_LOB.FILECLOSE(l_bfile1);
+
+        -- Insertar el segundo GIF
+        INSERT INTO QUIZZ_GIF (MIN_SCORE, MAX_SCORE, GIF_BLOB)
+        VALUES (6, 8, EMPTY_BLOB())
+        RETURNING GIF_BLOB INTO l_blob2;
+
+        DBMS_LOB.FILEOPEN(l_bfile2, DBMS_LOB.FILE_READONLY);
+        DBMS_LOB.LOADFROMFILE(l_blob2, l_bfile2, DBMS_LOB.GETLENGTH(l_bfile2));
+        DBMS_LOB.FILECLOSE(l_bfile2);
+
+        -- Insertar el tercer GIF
+        INSERT INTO QUIZZ_GIF (MIN_SCORE, MAX_SCORE, GIF_BLOB)
+        VALUES (9, 10, EMPTY_BLOB())
+        RETURNING GIF_BLOB INTO l_blob3;
+
+        DBMS_LOB.FILEOPEN(l_bfile3, DBMS_LOB.FILE_READONLY);
+        DBMS_LOB.LOADFROMFILE(l_blob3, l_bfile3, DBMS_LOB.GETLENGTH(l_bfile3));
+        DBMS_LOB.FILECLOSE(l_bfile3);
+        END;
+        """))
+        db.session.commit()
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -18,6 +61,9 @@ def create_app(config_name):
 
     """with app.app_context():
         db.create_all() """
+    
+    with app.app_context():
+        insert_gifs()
 
     @app.route('/list-tables')
     def list_tables():
